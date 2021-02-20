@@ -28,8 +28,9 @@ def Atkinson(filename):
               except IndexError:
                   pass
 
-  img.show()
-  return img
+  # img.show()
+  img.save("Converted.png")
+  return "Converted.png"
 
 pictureName = "femmes1000x700.png"
 imageElem = sg.Image(filename=pictureName, size=(1000,700), key='__IMAGE__')
@@ -37,7 +38,7 @@ imageElem = sg.Image(filename=pictureName, size=(1000,700), key='__IMAGE__')
 sg.theme("DarkTeal2")
 layout = [
           [sg.Text("Choose a file: "), sg.Input(key="_FILEBROWSE_", enable_events=True), sg.FileBrowse(key="-IN-", target='_FILEBROWSE_')],
-          [sg.Button("Conversion Atkinson", key="Submit"), sg.Button("Cat"), sg.Button("Quit")],
+          [sg.Button("Conversion Atkinson", key="Submit"), sg.Button("Quit")],
           [imageElem]
          ]
 
@@ -50,12 +51,12 @@ while True:
         break
     if event == "Submit":
         #print(values["-IN-"])
+        newImg = Atkinson(pictureName)
+        imageElem.Update(filename=newImg)
+    if event == "_FILEBROWSE_":
         pictureName = values["-IN-"]
         imageElem.Update(filename=pictureName)
-        newImg = Atkinson(pictureName)
-    if event == "Cat":
-        pictureName = "cat.png"
-        imageElem.Update(filename=pictureName)
+
     if event == "Quit":
         break
     if values.get("-IN-", "empty") != "empty":
