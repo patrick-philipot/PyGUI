@@ -36,7 +36,7 @@ imageElem = sg.Image(filename=pictureName, size=(1000,700), key='__IMAGE__')
 
 sg.theme("DarkTeal2")
 layout = [
-          [sg.Text("Choose a file: "), sg.Input(), sg.FileBrowse(key="-IN-")],
+          [sg.Text("Choose a file: "), sg.Input(key="_FILEBROWSE_", enable_events=True), sg.FileBrowse(key="-IN-", target='_FILEBROWSE_')],
           [sg.Button("Conversion Atkinson", key="Submit"), sg.Button("Cat"), sg.Button("Quit")],
           [imageElem]
          ]
@@ -48,12 +48,18 @@ while True:
     event, values = window.read()
     if event == "Exit":
         break
-    elif event == "Submit":
+    if event == "Submit":
         #print(values["-IN-"])
-        newImg = Atkinson(values["-IN-"])
-    elif event == "Cat":
+        pictureName = values["-IN-"]
+        imageElem.Update(filename=pictureName)
+        newImg = Atkinson(pictureName)
+    if event == "Cat":
         pictureName = "cat.png"
         imageElem.Update(filename=pictureName)
-    elif event == "Quit":
+    if event == "Quit":
         break
+    if values.get("-IN-", "empty") != "empty":
+        print("image selected")
+    print(event, values)
 
+window.close()
